@@ -12,54 +12,141 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="demo" class="form-control" type="text">
+                    <input id="randomDemo" class="form-control" type="text">
                     <button onclick="myFunctionRandom()" id="myFunctionRandom" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input class="form-control" type="text">
+                    <form class="form">
+                    <input id="userInputPin" class="form-control" name ="userInputPin" type="text">
+                    </form>
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
-                              <div class="button" onclick="document.calc.txt.value +=''">7</div>
-                              <div class="button">8</div>
-                              <div class="button">9</div>
+                              <div class="button" type="button" onclick = "insert(7)">7</div>
+                              <div class="button" onclick = "insert(8)">8</div>
+                              <div class="button" onclick = "insert(9)">9</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">4</div>
-                              <div class="button">5</div>
-                              <div class="button">6</div>
+                              <div class="button" onclick = "insert(4)">4</div>
+                              <div class="button" onclick = "insert(5)">5</div>
+                              <div class="button" onclick = "insert(6)">6</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">1</div>
-                              <div class="button">2</div>
-                              <div class="button">3</div>
+                              <div class="button" onclick = "insert(1)">1</div>
+                              <div class="button" onclick = "insert(2)">2</div>
+                              <div class="button" onclick = "insert(3)">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button"><</div>
-                                <div class="button">0</div>
-                                <div class="button">C</div>
+                                <div class="button" onclick = 'back()'><</div>
+                                <div class="button" onclick = "insert(0)">0</div>
+                                <div class="button" onclick = 'clean()'>C</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
-                                <p class="action-left">3 try left</p>
+                                <button id="submitbutton" type="submit" class="submit-btn">Submit</button>
+                                <p  class="action-left"><span id="action"> 3 </span> try left</p>
+                                <p type="button" value="RESET" id="resetButton"> Reset </p>
                             </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="notify-section">
-            <p class="notify">❌ Pin Didn't Match, Please try again</p>
-            <p class="notify">✅ Pin Matched... Secret door is opening for you</p>
-        </div> -->
+        <div id= "mySubmitForm" class="notify-section">
+            <p id="mySubmitNotMatched" style="display: none;" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="mySubmitMatched" style="display: none;" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div> 
     </div>
 <script>
+//random input generator
   function myFunctionRandom() {
   var x = Math.floor(Math.random() * (9999 - 1000)) + 1000; 
-  document.getElementById("demo").value = x;
-
+  document.getElementById("randomDemo").value = x;
 }
+
+//calc num input 
+function insert(num){
+    document.getElementById("userInputPin").value = document.getElementById("userInputPin").value + num;
+}
+
+//clear function
+function clean() {
+    document.getElementById("userInputPin").value = "";
+}
+//back function
+function back() {
+   var exp = document.getElementById("userInputPin").value;
+   document.getElementById("userInputPin").value = exp.substring (0, exp.length-1);
+}
+
+//submit function pppp
+     const submitBtn = document.getElementById("submitbutton");
+     submitBtn.addEventListener("click", function() {
+         //left random input is random
+        var namePin = document.getElementById("randomDemo").value;
+        var pinDemo = parseInt(document.getElementById("randomDemo").value);
+        //right section input is user input 
+        var pinInputText = document.getElementById("userInputPin").value;
+        var pinInput = parseInt(document.getElementById("userInputPin").value);
+
+        if (namePin === '' || pinInputText === '') {
+        //alert("Please fill all fields...!!!!!!");
+        //return false;
+        document.getElementById("mySubmitNotMatched").style.display = "block";
+        } else if (!(namePin).match(pinInputText) || pinInputText.length < 4 || pinInputText.length > 4 ) {
+        //alert("Invalid Pin...!!!!!!");
+        //return false;
+
+        var count = 3;  
+        var countButton = document.getElementById("submitbutton");
+        var displayCount = document.getElementById("action");
+        countButton.onclick = function(){  
+        count --;
+        action.innerHTML = count;
+        } 
+        
+        resetButton.onclick = function(){
+        count = 3;
+        action.innerHTML = count;
+        }
+            // const button = document.getElementById('submitbutton');
+            // button.addEventListener('click', event => {
+            // document.getElementById('action').innerHTML = `Click count: ${event.detail}`;
+            // });
+          
+        document.getElementById("mySubmitNotMatched").style.display = "block";
+        }
+
+        else {
+            document.getElementById("mySubmitMatched").style.display = "block";
+            }
+     })   
+       
+    // reset btn
+    //var count = 3;
+    //  const button = document.getElementById('submitbutton');
+    // //   var display = document.getElementById("action");
+
+    //   button.onclick = function(){
+    //     for (var count = 3; count == 0; count--){
+    //    var newCount = count;
+    //     }
+    //     var display = document.getElementById("action");
+    //     display.innerHTML = newCount;
+    //   }
+     
+     
+      //button.addEventListener('click', event => {
+    //document.getElementById('action').innerHTML = `Click count: ${event.detail}`;
+//}); event diye
+     
+
+    //  const submitArea = document.getElementById("myForm");
+    //  document.getElementById("mySubmitMatched").style.display = "block";
+     
+
+   
+//https://www.youtube.com/watch?v=JDiurjhpOXA
 </script>
 
 </body>
